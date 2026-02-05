@@ -1,0 +1,65 @@
+The following listing is already programmed in Veeva CDB Workbench. CQL PROGRAMMING LANGUAGE. NOT SQL.
+
+-Listing Title: Study Medication records for a Time Point without the corresponding visit initialized.
+
+-Objective: Listings checks if Study Medication data was entered for Time Point and corresponding event is not initialized.
+
+
+-Programming Guide/Notes:
+"Output when:
+EC Time Point <> NULL AND <> any initialized event for the participant"
+
+
+-Forms Used: EC1, EC2, EC3, EC4, EC5, EC6, EC7, EC8, EC9, EC10, EC11
+
+Below is my CQL Code. It works, but below subject is not expected in the output. See details below
+
+Subject# 00280051:
+Unexpected output for EC3/Cycle 3 as Cycle 3 is initiated with date 14-Feb-2026
+Unexpected output for EC5/Cycle 3 as Cycle 3 is initiated with date 14-Feb-2026
+
+
+CQL Code:
+
+SELECT
+  a.Site as `Site`,
+  a.Participant as `Participant`,
+  a.FrmNm as `EC Form Name`,
+  a.FormLbl as `EC Study Medication`,
+  a.ECRow as `EC Reference Number`,
+  a.EC_TPT as `EC Time Point`,
+  a.ECStartDate as `EC Start Date`,
+  a.EC_Last_Dose as `EC Last Dose`,
+  CASE
+    WHEN ev.EventKey IS NULL THEN 'No matching scheduled event for EC Time Point'
+    ELSE 'Matching event exists but is NOT initialized'
+  END as `Finding`
+FROM
+(
+  SELECT SiteNum as Site, SubjName as Participant, SubjID, FrmNm, FormLbl, ECRow, EC_TPT, EC_ECSTDTTM as ECStartDate, EC_ECLDINDC as EC_Last_Dose, UPPER(TRIM(EC_TPT)) as TPTKey
+  FROM vwECDose
+  WHERE EC_TPT IS NOT NULL
+) a
+LEFT JOIN
+(
+  SELECT b.SubjID, b.EventKey, MIN(b.EventGroup) as EventGroup, MIN(b.EventName) as EventName, MIN(b.EventGroupLabel) as EventGroupLabel, MAX(b.EventDate) as EventDate
+  FROM
+  (
+    SELECT @HDR.Subject.ID as SubjID, @HDR.EventGroup.Name as EventGroup, @HDR.Event.Name as EventName, @HDR.EventGroup.RepeatLabel as EventGroupLabel, @HDR.Event.Date as EventDate, UPPER(TRIM(@HDR.Event.Label)) as EventKey
+    WHERE @HDR.Event.Label IS NOT NULL
+
+    UNION
+
+    SELECT @HDR.Subject.ID as SubjID, @HDR.EventGroup.Name as EventGroup, @HDR.Event.Name as EventName, @HDR.EventGroup.RepeatLabel as EventGroupLabel, @HDR.Event.Date as EventDate, UPPER(TRIM(@HDR.Event.Name)) as EventKey
+    WHERE @HDR.Event.Name IS NOT NULL
+
+    UNION
+
+    SELECT @HDR.Subject.ID as SubjID, @HDR.EventGroup.Name as EventGroup, @HDR.Event.Name as EventName, @HDR.EventGroup.RepeatLabel as EventGroupLabel, @HDR.Event.Date as EventDate, UPPER(TRIM(@HDR.EventGroup.RepeatLabel)) as EventKey
+    WHERE @HDR.EventGroup.RepeatLabel IS NOT NULL
+  ) b
+  GROUP BY b.SubjID, b.EventKey
+) ev ON a.SubjID = ev.SubjID AND a.TPTKey = ev.EventKey
+WHERE ev.EventKey IS NULL OR ev.EventDate IS NULL
+
+ORDER BY `Site`, `Participant`, `EC Form Name`, `EC Reference Number`
