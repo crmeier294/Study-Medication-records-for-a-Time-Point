@@ -1,0 +1,14 @@
+Study.Name,Site.Number,Subject.Name,Subject.Status,Subject.ID,EventGroup.Name,Event.Name,Event.Date,Event.Status,Event.VisitMethod,EventGroup.RepeatLabel
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,SDE_default_egd,SUB,,submitted__v,,
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,SDE_default_egd,ev_DAY_15A,,submitted__v,,
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,SDE_default_egd,ev_DAY_22A,,submitted__v,,
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,SDE_default_egd,ev_DAY_8A,,submitted__v,,
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,eg_COMMON,ev_COMMON,,in_progress__v,,Common Forms
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,eg_INTERVENTIONA,ev_DAY_15A,,planned__v,,Intervention - Cohort A : Breast Cancer Cycle (3)
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,eg_INTERVENTIONA,ev_DAY_1A,,planned__v,,Intervention - Cohort A : Breast Cancer Cycle (1)
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,eg_INTERVENTIONA,ev_DAY_1A,,planned__v,,Intervention - Cohort A : Breast Cancer Cycle (2)
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,eg_INTERVENTIONA,ev_DAY_1A,2/14/2026,blank__v,,Intervention - Cohort A : Breast Cancer Cycle (3)
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,eg_INTERVENTIONA,ev_DAY_22A,,planned__v,,Intervention - Cohort A : Breast Cancer Cycle (3)
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,eg_INTERVENTIONA,ev_DAY_8A,,planned__v,,Intervention - Cohort A : Breast Cancer Cycle (3)
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,eg_RAND,ev_RAND,2/1/2026,in_progress__v,,Randomization
+5684-015_TST1,0028,00280051,in_screening__v,OPP00000005D194,eg_SCREENING,ev_SCREENING,1/31/2026,in_progress__v,,Screening
